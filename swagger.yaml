@@ -1,0 +1,488 @@
+# swagger.yaml
+
+openapi: 3.0.0
+info:
+  title: My Blog Application using Nodejs
+  description: This blog application allows users to register, login, manage their profiles, create and manage posts, and comment on posts. It is built using Node.js with a RESTful API structure. The following sections provide details on the different API endpoints, their purposes, request formats, and expected responses.
+  version: 1.0.0
+paths:
+  /post:
+    get:
+      tags:
+        - "Posts"
+      summary: Returns all the posts made on that blog Application
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getPosts"
+        "404":
+          description: No Post was found
+    post:
+      tags:
+        - "Posts"
+      summary: Create a new post to the blog Application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createAPost"
+      responses:
+        "201":
+          description: Post has been created to the Blog Application
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createAPost"
+    put:
+      tags:
+        - "Posts"
+      summary: Updates a post by ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateASinglePost"
+      responses:
+        "200":
+          description: A successful update response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/updateASinglePost"
+        "404":
+          description: Post not found
+    delete:
+      tags:
+        - "Posts"
+      summary: Deletes a post by ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/deleteAPost"
+      responses:
+        "200":
+          description: Post deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/deleteAPost"
+        "404":
+          description: Post not found
+
+  /post/{id}:
+    get:
+      tags:
+        - "Posts"
+      summary: Returns a single post based on the user's ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getASinglePost"
+
+        "404":
+          description: Post not found
+
+  /post/like:
+    post:
+      tags:
+        - "Posts"
+      summary: Likes a post on a Blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/likeAPost"
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/likeAPost"
+
+        "404":
+          description: Post not found
+
+  /user:
+    post:
+      tags:
+        - "Users"
+      summary: Registers a user on the Blog Application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/registerAUser"
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/registerAUser"
+
+        "404":
+          description: User not found
+
+    put:
+      tags:
+        - "Users"
+      summary: Updates the User Info on the Blog Application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updatesAUser"
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/updatesAUser"
+
+        "404":
+          description: User not found
+
+  /login:
+    post:
+      tags:
+        - "Users"
+      summary: Logs in a user to the Blog Application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loginAUser"
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/loginAUser"
+
+        "404":
+          description: User not found
+
+  /change-password:
+    put:
+      tags:
+        - "Users"
+      summary: Changes the Password of a user in the Blog Application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/changePassword"
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/changePassword"
+
+        "404":
+          description: User not found
+
+  /forgot-password:
+    put:
+      tags:
+        - "Users"
+      summary: Changes the forgotten Password of a user in the Blog Application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/forgotPassword"
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/forgotPassword"
+
+        "404":
+          description: User not found
+
+  /delete-user:
+    delete:
+      tags:
+        - "Users"
+      summary: Deletes the User from the Blog Application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/deleteUser"
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/deleteUser"
+
+        "404":
+          description: User not found
+
+  /comments:
+    post:
+      tags:
+        - "Comments"
+      summary: Adds Comment to a post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addComment"
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/addComment"
+
+        "404":
+          description: Comment not found
+
+    put:
+      tags:
+        - "Comments"
+      summary: Edits a user's comment on a post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/editComment"
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/editComment"
+
+        "404":
+          description: Comment not found
+
+    delete:
+      tags:
+        - "Comments"
+      summary: Deletes a user's comment from a post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/deleteComment"
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/deleteComment"
+
+        "404":
+          description: Comment not found
+
+components:
+  schemas:
+    getPosts:
+      type: object
+      properties:
+        posts:
+          type: array
+          items:
+            $ref: "#/components/schemas/createAPost"
+
+    createAPost:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Exciting New Feature!"
+        desc:
+          type: string
+          example: "This is a detailed description of the new feature."
+        previewPics:
+          type: string
+          example: "https://example.com/preview.jpg"
+        detailPics:
+          type: string
+          example: "https://example.com/detail.jpg"
+        creatorId:
+          type: string
+          example: "507f191e810c19729de860ea" # This should be a valid ObjectId format.
+
+    getASinglePost:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Exciting New Feature!"
+        desc:
+          type: string
+          example: "This is a detailed description of the new feature."
+        previewPics:
+          type: string
+          example: "https://example.com/preview.jpg"
+        detailPics:
+          type: string
+          example: "https://example.com/detail.jpg"
+
+    updateASinglePost:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "66c57ce51c9d1474e0f9ab12"
+        creatorId:
+          type: string
+          example: "507f191e810c19729de860ea" # This should be a valid ObjectId format.
+        title:
+          type: string
+          example: "Exciting New Feature!"
+        # desc:
+        #   type: string
+        #   example: "This is a detailed description of the new feature."
+        # previewPics:
+        #   type: string
+        #   example: "https://example.com/preview.jpg"
+        # detailPics:
+        #   type: string
+        #   example: "https://example.com/detail.jpg"
+
+    deleteAPost:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "66c57ce51c9d1474e0f9ab12"
+        creatorId:
+          type: string
+          example: "507f191e810c19729de860ea" # This should be a valid ObjectId format.
+
+    likeAPost:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 66be87f315e69f48c315416a
+        userId:
+          type: string
+          example: 66c57ce51c9d1474e0f9ab12
+
+    registerAUser:
+      type: object
+      properties:
+        username:
+          type: string
+          example: emmanuelfinapri
+        email:
+          type: string
+          example: emmanuelfinapri@gmail.com
+        password:
+          type: string
+          example: myPassword123
+        gender:
+          type: string
+          example: Male
+
+    loginAUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: emmanuelfinapri@gmail.com
+        password:
+          type: string
+          example: myPassword123
+
+    updatesAUser:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 66be87f315e69f48c315416a
+        password:
+          type: string
+          example: myPassword123
+        email:
+          type: string
+          example: daniel@gmail.com
+
+    changePassword:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 66be87f315e69f48c315416a
+        oldPassword:
+          type: string
+          example: myPassword123
+        newPassword:
+          type: string
+          example: myNewPassword
+
+    deleteUser:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 66be87f315e69f48c315416a
+
+    forgotPassword:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 66be87f315e69f48c315416a
+        newPassword:
+          type: string
+          example: myNewPassword
+
+    addComment:
+      type: object
+      properties:
+        comment:
+          type: string
+          example: Woowww you are doing amazing
+        postId:
+          type: string
+          example: 66c393ed533981cfb9d860d0
+        commentorsId:
+          type: string
+          example: 66c8fd1bcdc777f74c5e4691
+
+    editComment:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 66be87f315e69f48c315416a
+        comment:
+          type: string
+          example: This comment is to be edited
+
+    deleteComment:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 66be87f315e69f48c315416a
